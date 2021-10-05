@@ -12,22 +12,22 @@ class SwapiService {
   }
 
   async getPerson(id) {
-    const person = await this.getResource(`/people/${id}/`);
+    const person = await this.getResource(`people/${id}/`);
     return this._transformPerson(person);
   }
 
   async getAllPersons() {
-    const res = await this.getResource(`/people/`);
+    const res = await this.getResource(`people/`);
     return res.results.map(this._transformPerson);
   }
 
   async getStarship(id) {
-    const starship = await this.getResource(`/starships/${id}/`);
+    const starship = await this.getResource(`starships/${id}/`);
     return this._transformStarship(starship);
   }
 
   async getAllStarships() {
-    const res = await this.getResource(`/starships/`);
+    const res = await this.getResource(`starships/`);
     return res.results.map(this._transformStarship);
   }
 
@@ -37,7 +37,7 @@ class SwapiService {
   }
 
   async getAllPlanets() {
-    const res = await this.getResource(`/planets/`);
+    const res = await this.getResource(`planets/`);
     return res.results.map(this._transformPlanet);
   }
 
@@ -50,7 +50,7 @@ class SwapiService {
     return item.url.match(idRegExp)[1];
   }
 
-  _transformPlanet(planet) {
+  _transformPlanet = planet => {
     const id = this._extractId(planet);
     return {
       id,
@@ -59,9 +59,9 @@ class SwapiService {
       period: planet.rotation_period,
       diameter: planet.diameter,
     };
-  }
+  };
 
-  _transformStarship(starship) {
+  _transformStarship = starship => {
     const {
       name,
       model,
@@ -83,18 +83,19 @@ class SwapiService {
       passengers,
       cargoCapacity,
     };
-  }
+  };
 
-  _transformPerson(person) {
-    const { name, gender, birthYear, eyeColor } = person;
+  _transformPerson = person => {
+    console.log('trans person', person);
+    const { name, gender, birth_year, eye_color } = person;
     return {
       id: this._extractId(person),
       name,
       gender,
-      birthYear,
-      eyeColor,
+      birthYear: birth_year,
+      eyeColor: eye_color,
     };
-  }
+  };
 }
 
 export default SwapiService;

@@ -5,22 +5,28 @@ import Spinner from '../spinner';
 import ErrorIndicator from '../error-indicator';
 
 export default class RandomPlanet extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      planet: {},
-      loading: true,
-      error: false,
-    };
-    this.updatePlanet();
-  }
+  state = {
+    planet: {},
+    loading: true,
+    error: false,
+  };
+
   swapiService = new SwapiService();
+
+  componentDidMount() {
+    this.updatePlanet();
+    this.interval = setInterval(this.updatePlanet, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.updatePlanet);
+  }
 
   onPlanetLoaded = planet => {
     this.setState(() => {
       return {
         planet: planet,
-        // loading: false,
+        loading: false,
         error: false,
       };
     });
@@ -33,13 +39,13 @@ export default class RandomPlanet extends React.Component {
     });
   };
 
-  updatePlanet() {
-    const id = 15;
+  updatePlanet = () => {
+    const id = Math.floor(Math.random() * 25 + 3);
     this.swapiService
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
-  }
+  };
 
   render() {
     const { planet, loading, error } = this.state;
