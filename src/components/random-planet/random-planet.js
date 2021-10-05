@@ -19,7 +19,7 @@ export default class RandomPlanet extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.updatePlanet);
+    clearInterval(this.interval);
   }
 
   onPlanetLoaded = planet => {
