@@ -2,50 +2,49 @@ class SwapiService {
   _apiBase = 'https://swapi.dev/api/';
   _imgBase = '/assets/img/';
 
-  async getResource(url) {
+  getResource = async (url) => {
     const res = await fetch(`${this._apiBase}${url}`);
-    console.log('res', res);
     if (!res.ok) {
       throw new Error(`Ошибкаааааааааааа ${url}`);
     }
     return await res.json();
   }
 
-  async getPerson(id) {
+  getPerson = async (id) => {
     const person = await this.getResource(`people/${id}/`);
     return this._transformPerson(person);
   }
 
-  async getAllPersons() {
+  getAllPersons = async () => {
     const res = await this.getResource(`people/`);
     return res.results.map(this._transformPerson);
   }
 
-  async getStarship(id) {
+  getStarship = async (id) => {
     const starship = await this.getResource(`starships/${id}/`);
     return this._transformStarship(starship);
   }
 
-  async getAllStarships() {
+  getAllStarships = async () => {
     const res = await this.getResource(`starships/`);
     return res.results.map(this._transformStarship);
   }
 
-  async getPlanet(id) {
+  getPlanet = async (id) => {
     const planet = await this.getResource(`planets/${id}/`);
     return this._transformPlanet(planet);
   }
 
-  async getAllPlanets() {
+  getAllPlanets = async () => {
     const res = await this.getResource(`planets/`);
     return res.results.map(this._transformPlanet);
   }
 
   getImage(id, type) {
-    return `/assets/img/${type}/${id}.jpg`;
+    return `${this._imgBase}${type}/${id}.jpg`;
   }
 
-  _extractId(item) {
+  _extractId = (item) => {
     const idRegExp = /\/(\d+)\/$/;
     return item.url.match(idRegExp)[1];
   }
