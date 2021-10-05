@@ -1,27 +1,23 @@
-import './item-list.css';
 import { Component } from 'react';
-import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
+import './item-list.css';
 
 class ItemList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      personList: null,
-    };
-    this.swapi = new SwapiService();
-  }
+  state = {
+    itemList: null,
+  };
 
   componentDidMount() {
-    this.swapi.getAllPersons().then(personList => {
-      this.setState({ personList });
+    const { getData } = this.props;
+    getData().then(itemList => {
+      this.setState({ itemList });
     });
   }
 
   renderItems = () => {
-    const { personList } = this.state;
+    const { itemList } = this.state;
 
-    return personList.map(person => {
+    return itemList.map(person => {
       const { id, name } = person;
       return (
         <li
@@ -36,9 +32,9 @@ class ItemList extends Component {
   };
 
   render() {
-    const { personList } = this.state;
+    const { itemList } = this.state;
 
-    if (!personList) {
+    if (!itemList) {
       return <Spinner />;
     }
 
