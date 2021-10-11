@@ -10,6 +10,18 @@ class SwapiService {
     return await res.json();
   }
 
+  getPersonImage = ({id}) => {
+    return this.getImage(id, 'characters');
+  }
+
+  getStarshipImage = ({id}) => {
+    return this.getImage(id, 'starships');
+  }
+
+  getPlanetImage = ({id}) => {
+    return this.getImage(id, 'planets');
+  }
+
   getPerson = async (id) => {
     const person = await this.getResource(`people/${id}/`);
     return this._transformPerson(person);
