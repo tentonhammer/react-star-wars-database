@@ -1,73 +1,78 @@
 import React from 'react';
-import './person-details.css';
+import './item-details.css';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
 import ErrorButton from "../error-button";
 
-class PersonDetails extends React.Component {
+class ItemDetails extends React.Component {
   swapiService = new SwapiService();
   state = {
-    person: null,
-    loading: true,
+    item: null,
+    image: null,
+    loading: false,
   };
 
   componentDidMount() {
-    this.updatePerson();
+    this.updateItem();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.personId !== prevProps.personId) {
-      this.updatePerson();
+    if (this.props.itemId !== prevProps.itemId) {
+      this.updateItem();
     }
   }
 
-  updatePerson() {
+  updateItem() {
     this.setState({ loading: true });
-    const { personId } = this.props;
-    if (!personId) {
+    const { itemId, getData, getImage } = this.props;
+    if (!itemId) {
       return;
     }
-    this.swapiService.getPerson(personId).then(person => {
-      this.setState({ person, loading: false });
+    getData(itemId).then(item => {
+      this.setState({ item, image: getImage(item), loading: false });
     });
   }
 
   render() {
-    const { person, loading } = this.state;
+    const { item, loading, image } = this.state;
+
+    if (!item) {
+      return <span>Select an item from a list</span>;
+    }
 
     const content = loading ? (
       <Spinner />
     ) : (
       <>
         <img
-          className="person-image"
-          src={this.swapiService.getImage(person.id, 'characters')}
+          className="item-image"
+          src={image}
           alt="Character"
         />
 
         <div className="card-body">
-          <h4>{person.name}</h4>
+          <h4>{item.name}</h4>
           <ul className="list-group list-group-flush">
             <li className="list-group-item">
               <span className="term">Gender</span>
-              <span>{person.gender}</span>
+              <span>{item.gender}</span>
             </li>
             <li className="list-group-item">
               <span className="term">Birth Year</span>
-              <span>{person.birthYear}</span>
+              <span>{item.birthYear}</span>
             </li>
             <li className="list-group-item">
               <span className="term">Eye Color</span>
-              <span>{person.eyeColor}</span>
+              <span>{item.eyeColor}</span>
             </li>
           </ul>
-          <ErrorButton />
+          <ErrorButton className='m-lg-1' />
         </div>
       </>
     );
 
-    return <div className="person-details card">{content}</div>;
+    return <div className="item-details card">{content}</div>;
   }
 }
 
-export default PersonDetails;
+export default ItemDetails;
