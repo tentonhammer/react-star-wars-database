@@ -5,12 +5,12 @@ import PeoplePage from '../people-page';
 import './App.scss';
 import ErrorIndicator from '../error-indicator';
 import ErrorButton from '../error-button';
-import ItemList from "../item-list";
-import PersonDetails from "../item-details";
-import SwapiService from "../../services/swapi-service";
-import ErrorBoundry from "../error-boundry";
-import Row from "../row";
-import ItemDetails from "../item-details";
+import ItemList from '../item-list';
+import PersonDetails, { Record } from '../item-details';
+import SwapiService from '../../services/swapi-service';
+import ErrorBoundry from '../error-boundry';
+import Row from '../row';
+import ItemDetails from '../item-details';
 
 class App extends Component {
   state = {
@@ -29,14 +29,21 @@ class App extends Component {
 
   render() {
     const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
-    const {getPerson, getStarship, getStarshipImage, getPersonImage} = this.swapiService;
+    const { getPerson, getStarship, getStarshipImage, getPersonImage } = this.swapiService;
 
-    const itemDetails = <ItemDetails itemId={11} getData={getPerson} getImage={getPersonImage} />;
-    const starshipDetails = <ItemDetails itemId={5} getData={getStarship} getImage={getStarshipImage} />;
+    const itemDetails = <ItemDetails itemId={11} getData={getPerson} getImage={getPersonImage}>
+      <Record field='gender' label='Gender' />
+      <Record field='eyeColor' label='Eye Color' />
+    </ItemDetails>;
+    const starshipDetails = <ItemDetails itemId={5} getData={getStarship} getImage={getStarshipImage}>
+      <Record field='model' label='Model' />
+      <Record field='length' label='Length' />
+      <Record field='costInCredits' label='Cost' />
+    </ItemDetails>;
 
     return (
       <ErrorBoundry>
-        <div className="col-md-9 m-auto">
+        <div className='col-md-9 m-auto'>
           <Header />
           {/*{planet}
         <button
@@ -64,6 +71,11 @@ class App extends Component {
           </div>
         </div>*/}
           <Row left={starshipDetails} right={itemDetails} />
+          <ItemList onItemSelected={this.handleItemSelect} getData={this.swapiService.getAllPersons} renderItem={(item) => item.name}>
+            {(i) => (
+              `${i.name} (${i.birthYear})`
+            )}
+          </ItemList>
         </div>
       </ErrorBoundry>
     );
