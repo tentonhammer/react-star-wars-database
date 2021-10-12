@@ -1,16 +1,12 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import PeoplePage from '../people-page';
 import './App.scss';
-import ErrorIndicator from '../error-indicator';
-import ErrorButton from '../error-button';
-import ItemList from '../item-list';
-import PersonDetails, { Record } from '../item-details';
+import ItemDetails, { Record } from '../item-details';
 import SwapiService from '../../services/swapi-service';
 import ErrorBoundry from '../error-boundry';
 import Row from '../row';
-import ItemDetails from '../item-details';
+import { PersonDetails, PersonList, PlanetDetails, PlanetList, StarshipDetails, StarshipList } from '../sw-components';
 
 class App extends Component {
   state = {
@@ -71,11 +67,18 @@ class App extends Component {
           </div>
         </div>*/}
           <Row left={starshipDetails} right={itemDetails} />
-          <ItemList onItemSelected={this.handleItemSelect} getData={this.swapiService.getAllPersons} renderItem={(item) => item.name}>
-            {(i) => (
-              `${i.name} (${i.birthYear})`
-            )}
-          </ItemList>
+          <PersonList>
+            {({name}) => <span>{name}</span>}
+          </PersonList>
+          <StarshipList>
+            {({name}) => <span>{name}</span>}
+          </StarshipList>
+          <PlanetList>
+            {({name}) => <span>{name}</span>}
+          </PlanetList>
+          <PersonDetails itemId={11} />
+          <PlanetDetails itemId={11} />
+          <StarshipDetails itemId={11} />
         </div>
       </ErrorBoundry>
     );
