@@ -77,22 +77,20 @@ class SwapiService {
       name,
       model,
       manufacturer,
-      costInCredits,
       length,
       crew,
       passengers,
-      cargoCapacity,
     } = starship;
     return {
       id: this._extractId(starship),
       name,
       model,
       manufacturer,
-      costInCredits,
+      costInCredits: starship.cost_in_credits,
       length,
       crew,
       passengers,
-      cargoCapacity,
+      cargoCapacity: starship.cargo_capacity,
     };
   };
 
