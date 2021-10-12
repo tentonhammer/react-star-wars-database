@@ -1,5 +1,5 @@
 import React from 'react';
-import './item-details.css';
+import './item-details.scss';
 import ErrorButton from '../error-button';
 
 const Record = ({ item, field, label }) => {

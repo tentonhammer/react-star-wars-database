@@ -1,4 +1,4 @@
-import './item-list.css';
+import './item-list.scss';
 
 const ItemList = (props) => {
   const { data, onItemSelected, children: renderItems } = props;
