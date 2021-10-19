@@ -8,7 +8,6 @@ export default class ErrorButton extends Component {
 
   render() {
     const { className } = this.props;
-    console.log(this.props);
     if (this.state.renderError) {
       this.foo.bar = 0;
     }

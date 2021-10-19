@@ -4,8 +4,8 @@ import ErrorButton from '../error-button';
 
 const Record = ({ item, field, label }) => {
   return (
-    <li className="list-group-item">
-      <span className="term">{label}</span>
+    <li className='list-group-item'>
+      <span className='term'>{label}</span>
       <span>{item[field]}</span>
     </li>
   );
@@ -45,16 +45,16 @@ class ItemDetails extends React.Component {
     }
 
     return (
-      <div className="item-details card">
-        <img className="item-image" src={image} alt="Character" />
-        <div className="card-body">
+      <div className='item-details card'>
+        <img className='item-image' src={image} alt='Character' />
+        <div className='card-body'>
           <h4>{item.name}</h4>
-          <ul className="list-group list-group-flush">
+          <ul className='list-group list-group-flush'>
             {React.Children.map(this.props.children, (child, index) => {
               return React.cloneElement(child, { item });
             })}
           </ul>
-          <ErrorButton className="m-lg-1" />
+          <ErrorButton className='m-lg-1' />
         </div>
       </div>
     );
