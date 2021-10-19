@@ -7,11 +7,22 @@ import { PersonDetails, PersonList, PlanetDetails, PlanetList, StarshipDetails, 
 import './App.scss';
 import { SwapiServiceProvider } from '../../context/swapi-service-context';
 import SwapiService from '../../services/swapi-service';
+import DummySwapiService from '../../services/dummy-swapi-service';
 
 class App extends Component {
   state = {
     showRandomPlanet: true,
+    swapiService: new SwapiService()
   };
+
+  onServiceChange = () => {
+    this.setState(({swapiService}) => {
+      const Service = swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+      return {
+        swapiService: new Service()
+      }
+    });
+  }
 
   toggleRandomPlanet = () => {
     this.setState(state => {
@@ -26,9 +37,9 @@ class App extends Component {
 
     return (
       <ErrorBoundry>
-        <SwapiServiceProvider value={new SwapiService()}>
+        <SwapiServiceProvider value={this.state.swapiService}>
           <div className='col-md-9 m-auto'>
-            <Header />
+            <Header onServiceChange={this.onServiceChange} />
             {planet}
             <button
               onClick={this.toggleRandomPlanet}
