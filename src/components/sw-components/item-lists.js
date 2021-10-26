@@ -11,30 +11,45 @@ const withChildFunction = (Wrapped, fn) => {
   };
 };
 
-const mapPersonMethodsToProps = (swapiService) => {
+const mapPersonMethodsToProps = swapiService => {
   return {
     getData: swapiService.getAllPersons,
   };
 };
 
-const mapPlanetMethodsToProps = (swapiService) => {
+const mapPlanetMethodsToProps = swapiService => {
   return {
     getData: swapiService.getAllPlanets,
   };
 };
 
-const mapStarshipMethodsToProps = (swapiService) => {
+const mapStarshipMethodsToProps = swapiService => {
   return {
     getData: swapiService.getAllStarships,
   };
 };
 
-const PersonList = withSwapiService(withData(withChildFunction(ItemList, ({ name, eyeColor, birthYear }) =>
-  <span>{`${name} (${birthYear}, ${eyeColor})`}</span>)), mapPersonMethodsToProps);
-const PlanetList = withSwapiService(withData(withChildFunction(ItemList, ({ name, population }) =>
-  <span>{`${name} (${population})`}</span>)), mapPlanetMethodsToProps);
-const StarshipList = withSwapiService(withData(withChildFunction(ItemList, ({ name, model }) =>
-  <span>{`${name} (${model})`}</span>)), mapStarshipMethodsToProps);
+const PersonList = withSwapiService(mapPersonMethodsToProps)(
+  withData(
+    withChildFunction(({ name, eyeColor, birthYear }) => (
+      <span>{`${name} (${birthYear}, ${eyeColor})`}</span>
+    ))(ItemList)
+  )
+);
+const PlanetList = withSwapiService(mapPlanetMethodsToProps)(
+  withData(
+    withChildFunction(({ name, population }) => (
+      <span>{`${name} (${population})`}</span>
+    ))(ItemList)
+  )
+);
+const StarshipList = withSwapiService(mapStarshipMethodsToProps)(
+  withData(
+    withChildFunction(({ name, model }) => <span>{`${name} (${model})`}</span>)(
+      ItemList
+    )
+  )
+);
 
 
 export {
