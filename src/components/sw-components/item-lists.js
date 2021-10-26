@@ -1,15 +1,7 @@
 import React from 'react';
 import { withData, withSwapiService } from '../hoc-helpers';
 import ItemList from '../item-list';
-
-
-const withChildFunction = (Wrapped, fn) => {
-  return (props) => {
-    return <Wrapped {...props}>
-      {fn}
-    </Wrapped>;
-  };
-};
+import withChildFunction from '../hoc-helpers/with-child-function';
 
 const mapPersonMethodsToProps = swapiService => {
   return {
